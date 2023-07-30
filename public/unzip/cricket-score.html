@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    
+    <style>
+        table,th{
+            color: blue;
+            padding: 15px;
+            margin: 10px;
+            border-spacing: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Cricket-Score</h2>
+    <h2>Matches</h2>
+    <div id="live-matches" >
+        <table border="1">
+            <tr>
+                <th>Match No</th>
+                <th>Score</th>
+                <th>Wickets</th>
+                <th>Over</th>
+            </tr>
+
+            <tbody id="tbody">
+                
+            </tbody>
+            
+            
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    
+    var websocket = new WebSocket('ws://localhost:8000');
+            
+    
+websocket.addEventListener("message",(msg)=>{
+    const data =JSON.parse(msg.data)
+
+    
+    document.getElementById('tbody').innerHTML="";
+    var tbodyRef = document.getElementById('tbody');
+
+    data.map((match,i)=>{
+        var newRow = tbodyRef.insertRow();
+        
+        
+
+        var newCell = newRow.insertCell();
+        var newText = document.createTextNode(i+1);
+        newCell.appendChild(newText);
+
+        var newCell = newRow.insertCell();
+        var newText = document.createTextNode(match.score);
+        newCell.appendChild(newText);
+
+        var newCell = newRow.insertCell();
+        var newText = document.createTextNode(match.wicket);
+        newCell.appendChild(newText);
+
+        var newCell = newRow.insertCell();
+        var newText = document.createTextNode(match.over);
+        newCell.appendChild(newText);
+    })
+    
+
+
+                //          <tr>
+                //     <td></td>
+                //     <td></td>
+                //     <td></td>
+                //     <td></td>
+                //     <td></td>
+                // </tr>
+    
+})
+
+
+    
+</script>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <h2>Home</h2>
+    <h2>Chat Boat</h2>
+
+    <div>
+        <input type="text" name="msg" id="msg">
+        <input type="button" name="send" id="send" value="send message" onclick="sendMessage()"> 
+    </div>
+    <div id="messages">
+
+        
+    </div>
+</body>
+</html>
+
+<script>
+    
+    var websocket = new WebSocket('ws://localhost:3000');
+        
+
+    websocket.addEventListener("message",(msg)=>{
+        document.getElementById('messages').innerHTML+='<br>bot: '+ msg.data;
+    
+})
+
+function sendMessage(){
+    var message = document.getElementById('msg').value;
+    document.getElementById('messages').innerHTML+='<br>You: '+ message;
+    websocket.send(message);
+    document.getElementById('msg').value="";
+}
+    
+</script>
